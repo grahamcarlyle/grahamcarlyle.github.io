@@ -1,5 +1,5 @@
 ---
-title: A first post
+title: "A first post"
 ---
 
 # A first post
