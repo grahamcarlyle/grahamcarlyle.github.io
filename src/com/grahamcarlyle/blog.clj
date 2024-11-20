@@ -14,7 +14,7 @@
              "normalise sharing scrappy fiddles"]]]))
 
 (defn build [{:keys [output-dir]}]
-  (fs/create-dirs "output")
+  (fs/create-dirs output-dir)
   (spit (io/file output-dir "index.html") (declaration-of-intent)))
 
 (comment
