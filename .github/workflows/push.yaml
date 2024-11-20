@@ -19,7 +19,7 @@ jobs:
         with:
           cli: 1.12.0.1479
       - name: Build html
-        run: clj -X com.grahamcarlyle.blog/build :output-dir '"public"'
+        run: clojure -X com.grahamcarlyle.blog/build :output-dir '"public"'
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v2
         with:
