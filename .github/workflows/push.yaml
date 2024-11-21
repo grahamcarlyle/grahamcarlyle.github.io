@@ -1,4 +1,4 @@
-name: push to github pages
+name: deploy to github pages
 
 on:
   workflow_dispatch:
