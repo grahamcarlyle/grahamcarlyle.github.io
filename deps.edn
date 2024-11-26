@@ -1,4 +1,14 @@
-{:paths ["src" "resources"]
+{:paths ["src/main"]
  :deps {org.clojure/clojure {:mvn/version "1.12.0"}
         babashka/fs {:mvn/version "0.4.19"}
-        hiccup/hiccup {:mvn/version "2.0.0-RC3"}}}
+        hiccup/hiccup {:mvn/version "2.0.0-RC3"}
+        io.github.nextjournal/markdown {:mvn/version "0.6.157"}
+        clj-commons/clj-yaml {:mvn/version "1.0.29"}}
+ :aliases
+ {:build {:exec-fn com.grahamcarlyle.blog/build
+          :exec-args {:output-dir "build-output"}}
+  :test {:extra-paths ["src/test"]
+         :extra-deps {io.github.cognitect-labs/test-runner
+                      {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
+         :exec-fn cognitect.test-runner.api/test
+         :exec-args {:dirs ["src/test"]}}}}
