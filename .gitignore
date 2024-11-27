@@ -1,5 +1,5 @@
 *.iml
 .idea
 .cpcache
-build-output/
+generated-output/
 .nrepl-port

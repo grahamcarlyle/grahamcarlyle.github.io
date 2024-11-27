@@ -1,4 +1,4 @@
-(ns com.grahamcarlyle.posts
+(ns com.grahamcarlyle.blog.posts
   (:require
     [nextjournal.markdown :as md]
     [nextjournal.markdown.transform :as md.transform]

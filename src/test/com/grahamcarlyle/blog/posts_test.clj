@@ -1,7 +1,7 @@
-(ns com.grahamcarlyle.posts-test
+(ns com.grahamcarlyle.blog.posts-test
   (:require
     [clojure.test :refer [deftest is testing]]
-    [com.grahamcarlyle.posts :as posts]))
+    [com.grahamcarlyle.blog.posts :as posts]))
 
 (deftest read-posts-test
   (testing "Parse simple markdown"

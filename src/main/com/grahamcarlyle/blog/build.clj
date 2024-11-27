@@ -1,4 +1,4 @@
-(ns com.grahamcarlyle.blog
+(ns com.grahamcarlyle.blog.build
   (:require
     [babashka.fs :as fs]
     [clojure.java.io :as io]
@@ -13,10 +13,11 @@
              {:href "https://www.todepond.com/sky/normalise-dont-share-lol/"}
              "normalise sharing scrappy fiddles"]]]))
 
-(defn build [{:keys [output-dir]}]
+(defn generate [{:keys [output-dir]}]
+  (fs/delete-tree output-dir)
   (fs/create-dirs output-dir)
   (spit (io/file output-dir "index.html") (declaration-of-intent)))
 
 (comment
-  (build {:output-dir "output"})
+  (build {:output-dir "build-output"})
   )

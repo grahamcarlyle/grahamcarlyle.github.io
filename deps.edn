@@ -5,8 +5,8 @@
         io.github.nextjournal/markdown {:mvn/version "0.6.157"}
         clj-commons/clj-yaml {:mvn/version "1.0.29"}}
  :aliases
- {:build {:exec-fn com.grahamcarlyle.blog/build
-          :exec-args {:output-dir "build-output"}}
+ {:generate {:exec-fn com.grahamcarlyle.blog.build/generate
+             :exec-args {:output-dir "generated-output"}}
   :test {:extra-paths ["src/test"]
          :extra-deps {io.github.cognitect-labs/test-runner
                       {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
