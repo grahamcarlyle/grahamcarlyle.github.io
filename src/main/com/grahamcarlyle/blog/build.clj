@@ -1,23 +1,18 @@
 (ns com.grahamcarlyle.blog.build
   (:require
     [babashka.fs :as fs]
+    [com.grahamcarlyle.blog.posts :as posts]
     [clojure.java.io :as io]
     [hiccup2.core :as h]))
-
-(defn declaration-of-intent []
-  (h/html [:div
-           [:p "Declaration of intent to share scrappy fiddles."]
-           [:p
-            "I'm still thinking about whether I am compelled to "
-            [:a
-             {:href "https://www.todepond.com/sky/normalise-dont-share-lol/"}
-             "normalise sharing scrappy fiddles"]]]))
 
 (defn generate [{:keys [output-dir]}]
   (fs/delete-tree output-dir)
   (fs/create-dirs output-dir)
-  (spit (io/file output-dir "index.html") (declaration-of-intent)))
+  (let [result (posts/parse (slurp (io/file "posts" "first-scrappy.md")))]
+    (spit (io/file output-dir "index.html") (h/html (:hiccup result)))))
 
 (comment
-  (build {:output-dir "build-output"})
+  (def output-dir "generated-output")
+  (fs/delete-tree output-dir)
+  (generate {:output-dir output-dir})
   )
