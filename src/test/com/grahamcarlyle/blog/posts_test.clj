@@ -20,4 +20,9 @@ tags:
  - foo
  - bar
 ---
-This is a post")))))
+This is a post"))))
+
+  (testing "Parse markdown with liquid like templating"
+    (is (= [:div [:p "2 + 1 = " [::posts/template " (+ 2 1) "]]]
+           (:hiccup (posts/parse
+                      "2 + 1 = {{ (+ 2 1) }}"))))))
