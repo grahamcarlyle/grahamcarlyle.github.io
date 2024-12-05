@@ -26,3 +26,11 @@ This is a post"))))
     (is (= [:div [:p "2 + 1 = " [::posts/template " (+ 2 1) "]]]
            (:hiccup (posts/parse
                       "2 + 1 = {{ (+ 2 1) }}"))))))
+
+(deftest eval-template
+  (testing "simple expression evaluation"
+    (is (= "3" (posts/eval-template [::posts/template "(+ 1 2)"]))))
+  (testing "nested expression evaluation"
+    (is (= [:div "3"] (posts/eval-template [:div [::posts/template "(+ 1 2)"]]))))
+  (testing "reference variable in context"
+    (is (= "4" (posts/eval-template [::posts/template "(+ 1 a)"] {'a 3})))))

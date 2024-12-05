@@ -1,9 +1,11 @@
 (ns com.grahamcarlyle.blog.posts
   (:require
    [clj-yaml.core :as yaml]
+   [clojure.walk :as walk]
    [nextjournal.markdown :as md]
    [nextjournal.markdown.transform :as md.transform]
-   [nextjournal.markdown.utils :as md.utils]))
+   [nextjournal.markdown.utils :as md.utils]
+   [sci.core :as sci]))
 
 (def front-matter-yaml-pattern
   #"(?s)^---\n+(.*?)\n+---\n+(.*)")
@@ -34,3 +36,20 @@
   (let [split-content (split-front-matter content)]
     {:meta   (some-> split-content :front-matter-yaml (yaml/parse-string))
      :hiccup (-> split-content :markdown (parse-markdown))}))
+
+(defn eval-string [form-str context]
+  (sci/eval-string form-str {:bindings context}))
+
+(defn eval-template
+  ([template]
+   (eval-template template nil))
+  ([template context]
+   (walk/postwalk
+     (fn [x]
+       (if (and (vector? x)
+                (= 2 (count x))
+                (= ::template (first x))
+                (string? (second x)))
+         (str (eval-string (second x) context))
+         x))
+     template)))
