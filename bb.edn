@@ -1,3 +1,5 @@
 {:tasks
  {format {:doc "Formats according to standard clojure style"
-          :task (shell "standard-clj fix")}}}
+          :task (shell "standard-clj fix")}
+  test {:doc "Runs the tests"
+        :task (clojure "-X:test")}}}
