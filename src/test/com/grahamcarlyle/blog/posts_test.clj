@@ -27,7 +27,7 @@ This is a post"))))
            (:hiccup (posts/parse
                       "2 + 1 = {{ (+ 2 1) }}"))))))
 
-(deftest eval-template
+(deftest eval-template-test
   (testing "simple expression evaluation"
     (is (= "3" (posts/eval-template [::posts/template "(+ 1 2)"]))))
   (testing "nested expression evaluation"
