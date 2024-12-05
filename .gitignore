@@ -3,3 +3,4 @@
 .cpcache
 generated-output/
 .nrepl-port
+node_modules/
