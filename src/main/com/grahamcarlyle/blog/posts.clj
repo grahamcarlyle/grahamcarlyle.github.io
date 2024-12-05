@@ -24,13 +24,13 @@
 (defn template-node->hiccup [_ctx node]
   [::template (:text node)])
 
+(defn parse-markdown [markdown]
+  (->> markdown
+       (md/parse* (update md.utils/empty-doc :text-tokenizers conj template-tokenizer))
+       (md.transform/->hiccup
+         (assoc md.transform/default-hiccup-renderers ::template template-node->hiccup))))
+
 (defn parse [content]
   (let [split-content (split-front-matter content)]
-    {:meta   (some-> split-content
-                     :front-matter-yaml
-                     (yaml/parse-string))
-     :hiccup (->> split-content
-               :markdown
-               (md/parse* (update md.utils/empty-doc :text-tokenizers conj template-tokenizer))
-               (md.transform/->hiccup
-                 (assoc md.transform/default-hiccup-renderers ::template template-node->hiccup)))}))
+    {:meta   (some-> split-content :front-matter-yaml (yaml/parse-string))
+     :hiccup (-> split-content :markdown (parse-markdown))}))
