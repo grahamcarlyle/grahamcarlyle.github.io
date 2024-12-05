@@ -3,7 +3,7 @@
    [clojure.test :refer [deftest is testing]]
    [com.grahamcarlyle.blog.posts :as posts]))
 
-(deftest read-posts-test
+(deftest parse-posts-test
   (testing "Parse simple markdown"
     (is (= {:meta   nil
             :hiccup [:div [:p "This is a post"]]}
