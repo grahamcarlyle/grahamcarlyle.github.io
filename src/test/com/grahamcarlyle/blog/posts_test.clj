@@ -1,7 +1,7 @@
 (ns com.grahamcarlyle.blog.posts-test
   (:require
-    [clojure.test :refer [deftest is testing]]
-    [com.grahamcarlyle.blog.posts :as posts]))
+   [clojure.test :refer [deftest is testing]]
+   [com.grahamcarlyle.blog.posts :as posts]))
 
 (deftest read-posts-test
   (testing "Parse simple markdown"
@@ -14,7 +14,7 @@
                      :tags ["foo" "bar"]}
             :hiccup [:div [:p "This is a post"]]}
            (posts/parse
-"---
+             "---
 title: First post
 tags:
  - foo

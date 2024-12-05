@@ -1,11 +1,11 @@
 (ns com.grahamcarlyle.blog.build
   (:require
-    [babashka.fs :as fs]
-    [com.grahamcarlyle.blog.page :as-alias page]
-    [com.grahamcarlyle.blog.posts :as posts]
-    [clojure.java.io :as io]
-    [clojure.walk :as walk]
-    [hiccup2.core :as h]))
+   [babashka.fs :as fs]
+   [clojure.java.io :as io]
+   [clojure.walk :as walk]
+   [com.grahamcarlyle.blog.page :as-alias page]
+   [com.grahamcarlyle.blog.posts :as posts]
+   [hiccup2.core :as h]))
 
 (def post-template
   [:html {:lang "en"}
@@ -41,5 +41,4 @@
 (comment
   (def output-dir "generated-output")
   (fs/delete-tree output-dir)
-  (generate {:output-dir output-dir})
-  )
+  (generate {:output-dir output-dir}))

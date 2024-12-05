@@ -1,8 +1,7 @@
 (ns com.grahamcarlyle.blog.build-test
   (:require
-    [clojure.test :refer [deftest is]]
-    [com.grahamcarlyle.blog.build :as build]))
-
+   [clojure.test :refer [deftest is]]
+   [com.grahamcarlyle.blog.build :as build]))
 
 (deftest substitute-test
   (is (= [:a "hello"]
