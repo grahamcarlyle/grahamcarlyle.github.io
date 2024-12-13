@@ -2,31 +2,9 @@
   (:require
    [babashka.fs :as fs]
    [clojure.java.io :as io]
-   [clojure.walk :as walk]
    [com.grahamcarlyle.blog.page :as-alias page]
    [com.grahamcarlyle.blog.posts :as posts]
    [hiccup2.core :as h]))
-
-(def post-template
-  [:html {:lang "en"}
-   [:head
-    [:title ::page/title]]
-   [:body
-    ::page/content]])
-
-(defn substitute [template mapping]
-  (walk/postwalk
-    (fn [x]
-      (if (keyword? x)
-        (get mapping x x)
-        x))
-    template))
-
-(defn qualify-plain-keyword-keys [mapping ns-str]
-  (update-keys mapping
-               #(cond-> %
-                        (and (keyword? %) (nil? (namespace %)))
-                        (->> name (keyword ns-str)))))
 
 (defn generate [{:keys [output-dir]}]
   (fs/delete-tree output-dir)
