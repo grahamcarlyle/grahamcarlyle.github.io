@@ -58,5 +58,10 @@ This is a {{ adjective }} post."
                                    [:head [:title [::posts/template "post.meta/title"]]]
                                    [:body
                                     [::posts/template "post/content"]]]}}))))
-  (testing "TODO no template")
+  (testing "no template markdown post"
+    (is (= [:div [:p "This is a " "short" " post."]]
+           (posts/render "---
+adjective: short
+---
+This is a {{ adjective }} post."))))
   (testing "TODO Unknown template"))

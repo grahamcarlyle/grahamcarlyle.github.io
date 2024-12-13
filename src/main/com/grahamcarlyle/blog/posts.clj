@@ -53,7 +53,7 @@
         x))
     template))
 
-(def undecorated-content-template [::template "page/content"])
+(def undecorated-content-template [::template "post/content"])
 
 (defn render
   ([post-markdown]
