@@ -1,5 +1,9 @@
 {:tasks
- {format {:doc "Formats according to standard clojure style"
+ {serve {:doc "Serves the generated site locally on http://localhost:8080"
+         :task (clojure "-X:serve")}
+  generate {:doc "Generates the static site"
+            :task (clojure "-X:generate")}
+  format {:doc "Formats according to standard clojure style"
           :task (shell "standard-clj fix")}
   test {:doc "Runs the tests"
         :task (clojure "-X:test")}}}
