@@ -33,10 +33,12 @@ This is a post"))))
   (testing "nested expression evaluation"
     (is (= [:div "3"] (posts/eval-template [:div [::posts/template "(+ 1 2)"]]))))
   (testing "reference variable in context"
+    (is (= "3" (posts/eval-template [::posts/template "a"] {:namespaces {'user {'a 3}}}))))
+  (testing "calc with variable in context"
     (is (= "4" (posts/eval-template [::posts/template "(+ 1 a)"] {:namespaces {'user {'a 3}}}))))
   (testing "reference variable in other namespace context"
-    (is (= "4" (posts/eval-template [::posts/template "(+ 1 ns1/a)"] {:namespaces {'ns1 {'a 3}}}))))
-  (testing " "
+    (is (= "3" (posts/eval-template [::posts/template "ns1/a"] {:namespaces {'ns1 {'a 3}}}))))
+  (testing "dont coerce result to string"
     (is (= 4 (posts/eval-template [::posts/template "(+ 1 3)"] {:raw? true})))))
 
 (deftest render-post-test
