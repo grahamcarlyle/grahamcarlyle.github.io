@@ -5,14 +5,14 @@
 
 (deftest parse-posts-test
   (testing "Parse simple markdown"
-    (is (= {:meta    nil
-            :content [:div [:p "This is a post"]]}
+    (is (= {:front-matter nil
+            :content      [:div [:p "This is a post"]]}
            (posts/parse "This is a post"))))
 
   (testing "Parse markdown with yaml front matter metadata"
-    (is (= {:meta    {:title "First post"
-                      :tags  ["foo" "bar"]}
-            :content [:div [:p "This is a post"]]}
+    (is (= {:front-matter {:title "First post"
+                      :tags       ["foo" "bar"]}
+            :content      [:div [:p "This is a post"]]}
            (posts/parse
              "---
 title: First post
@@ -57,7 +57,7 @@ adjective: short
 # {{ title }}
 This is a {{ adjective }} post."
              {:templates {:simple [:html
-                                   [:head [:title [::posts/template "post.meta/title"]]]
+                                   [:head [:title [::posts/template "post.front-matter/title"]]]
                                    [:body
                                     [::posts/template "post/content"]]]}}))))
   (testing "no template markdown post"

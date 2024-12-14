@@ -34,8 +34,8 @@
 
 (defn parse [content]
   (let [split-content (split-front-matter content)]
-    {:meta   (some-> split-content :front-matter-yaml (yaml/parse-string))
-     :content (-> split-content :markdown (parse-markdown))}))
+    {:front-matter (some-> split-content :front-matter-yaml (yaml/parse-string))
+     :content      (-> split-content :markdown (parse-markdown))}))
 
 (defn eval-string [form-str namespaces]
   (sci/eval-string form-str {:namespaces namespaces}))
@@ -59,14 +59,14 @@
   ([post-markdown]
    (render post-markdown nil))
   ([post-markdown context]
-   (let [{:keys [meta content]} (parse post-markdown)
-         meta-mapping (update-keys meta #(symbol (name %)))
-         content (eval-template content {:namespaces {'user meta-mapping}})
-         template-name (-> meta :template (keyword))
+   (let [{:keys [front-matter content]} (parse post-markdown)
+         front-matter-mapping (update-keys front-matter #(symbol (name %)))
+         content (eval-template content {:namespaces {'user front-matter-mapping}})
+         template-name (-> front-matter :template (keyword))
          template (or (and template-name
                            (or (-> context :templates (get template-name))
                                (throw (ex-info "Unknown template" {:template-name template-name}))))
                       undecorated-content-template)
          template-mapping (assoc {'post {'content content}}
-                            'post.meta meta-mapping)]
+                                  'post.front-matter front-matter-mapping)]
      (eval-template template {:namespaces template-mapping :raw? true}))))
