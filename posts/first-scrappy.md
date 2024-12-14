@@ -1,7 +1,7 @@
 ---
 title: A first post
 ---
-# A first post
+# {{title}}
 
 Declaration of intent to share scrappy fiddles.
 
