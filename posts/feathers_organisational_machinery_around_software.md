@@ -1,6 +1,10 @@
+---
+title: Notes from Michael Feather's talk "Organisational Machinery around Software"
+date: 2024-12-14T20:20:00+00:00
+---
 *I wrote this report on a talk at the 2015 ACCU conference as a gist on May 12th 2015. Reusing it as a blog post in a desperate attempt to produce more content.*
 
-# Notes from Michael Feather's talk "Organisational Machinery around Software"
+# {{title}}
 
 Michael Feathers gave a thought provoking [talk in Bristol](http://www.meetup.com/Bath-Scrum-User-Group/events/221397746/) called "Organisational Machinery around Software". He gave this talk to the Bath Scrum Users Group, on the eve of the [2015 ACCU conference](http://accu.org/index.php/conferences/accu_conference_2015).
 

@@ -1,3 +1,7 @@
+---
+title: Notes on "Reconciling Perspectives" at XTC
+date: 2024-12-14T20:20:00+00:00
+---
 *I wrote this report on a talk at XTC on June 3rd 2019. Reusing it as a blog post in another desperate attempt to produce more content.*
 
 On the evening of May 21st I went along to the eXtreme Tuesday Club (XTC), where my colleague, Andy Parker, [ran a session](https://www.meetup.com/eXtreme-Tuesday-Club-XTC/events/ncwwmqyzhbcc/) on a model of software engineering called [“Reconciling Perspectives”](http://www.sxf.uevora.pt/wp-content/uploads/2013/03/Adolph_20121.pdf). I work remotely from Bristol, but I regularly visit my companies London offices to catch up with colleagues in person and it's also nice to take the opportunity to go to interesting London based techie meetups, like this one, in the evening.
