@@ -20,19 +20,15 @@
   (let [front-matter-bindings (update-keys front-matter #(symbol (name %)))]
     (md.utils/normalize-tokenizer
       {:regex   #"\{\{([^\}]+)\}\}"
-       :handler (fn [match] {:type ::template
+       :handler (fn [match] {:type :text
                              :text (-> (match 1)
                                        (sci/eval-string {:bindings front-matter-bindings})
                                        (str))})})))
 
-(defn template-node->hiccup [_ctx node]
-  (:text node))
-
 (defn parse-markdown [front-matter markdown]
   (->> markdown
        (md/parse* (update md.utils/empty-doc :text-tokenizers conj (template-tokenizer front-matter)))
-       (md.transform/->hiccup
-         (assoc md.transform/default-hiccup-renderers ::template template-node->hiccup))))
+       (md.transform/->hiccup)))
 
 (defn parse [content]
   (let [split-content (split-front-matter content)
