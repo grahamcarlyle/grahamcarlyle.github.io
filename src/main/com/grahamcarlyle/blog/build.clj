@@ -6,13 +6,22 @@
    [com.grahamcarlyle.blog.posts :as posts]
    [hiccup2.core :as h]))
 
+(def templates
+  {:post
+   (fn [{:keys [front-matter content]}]
+     (h/html
+       (h/raw "<!DOCTYPE html>")
+       [:head
+        [:title (:title front-matter)]]
+       [:body content]))})
+
 (defn generate [{:keys [output-dir]}]
   (fs/delete-tree output-dir)
   (fs/create-dirs output-dir)
   (doseq [post-file (fs/glob "posts" "*.md")]
-    (let [result (posts/render (slurp (fs/file post-file)))]
+    (let [result (posts/render (slurp (fs/file post-file)) {:templates templates :default-template :post})]
       (spit (io/file output-dir (str (fs/strip-ext (last (fs/components post-file))) ".html"))
-            (h/html (h/raw "<!DOCTYPE html>") result)))))
+            result))))
 
 (comment
   (def output-dir "generated-output")
