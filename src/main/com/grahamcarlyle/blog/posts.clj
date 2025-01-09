@@ -38,15 +38,25 @@
 
 (defn undecorated-content-template [{:keys [content]}] content)
 
+(defn get-template [context front-matter]
+  (or (and (-> context :templates)
+           (let [template-name (or (-> front-matter :template (keyword))
+                                   (:default-template context))]
+             (or (-> context :templates (get template-name))
+                 (throw (ex-info "Unknown template" {:template-name template-name})))))
+      undecorated-content-template))
+
+(defn render-as-page
+  ([post-markdown]
+   (render-as-page post-markdown nil))
+  ([post-markdown context]
+   (let [{:keys [front-matter] :as post} (parse post-markdown)
+         template (get-template context front-matter)]
+     (assoc post :page-source (template post)))))
+
+; TODO remove after changing tests to use render-as-page
 (defn render
   ([post-markdown]
    (render post-markdown nil))
   ([post-markdown context]
-   (let [{:keys [front-matter content]} (parse post-markdown)
-         template (or (and (-> context :templates)
-                           (let [template-name (or (-> front-matter :template (keyword))
-                                                   (:default-template context))]
-                             (or (-> context :templates (get template-name))
-                                 (throw (ex-info "Unknown template" {:template-name template-name})))))
-                      undecorated-content-template)]
-     (template {:front-matter front-matter :content content}))))
+   (:page-source (render-as-page post-markdown context))))
