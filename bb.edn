@@ -1,9 +1,42 @@
 {:tasks
- {serve {:doc "Serves the generated site locally on http://localhost:8080"
-         :task (clojure "-X:serve")}
-  generate {:doc "Generates the static site"
-            :task (clojure "-X:generate")}
-  format {:doc "Formats according to standard clojure style"
-          :task (shell "standard-clj fix")}
-  test {:doc "Runs the tests"
-        :task (clojure "-X:test")}}}
+ {serve
+  {:doc  "Serves the generated site locally on http://localhost:8080"
+   :task (clojure "-X:serve")}
+  generate
+  {:doc  "Generates the static site"
+   :task (clojure "-X:generate")}
+  format
+  {:doc  "Formats according to standard clojure style"
+   :task (shell "standard-clj fix")}
+  test
+  {:doc  "Runs the tests"
+   :task (clojure "-X:test")}
+  download-latest-open-props
+  {:doc  "Download the latest openprops css and design tokens"
+   :requires ([babashka.fs :as fs]
+              [cheshire.core :as json]
+              [clojure.java.io :as io])
+   :task (let [version (-> "https://registry.npmjs.org/open-props"
+                         (http/get)
+                         (doto (fn [response] (assert (= 200 (:status response)))))
+                         :body
+                         (json/parse-string)
+                         (get-in ["dist-tags" "latest"]))]
+           (println "downloading version" version)
+           (doseq
+             [[src-url dest-file] {(format "https://unpkg.com/open-props@%s/open-props.min.css" version)
+                                   "resources/public/css/open-props.min.css"
+                                   (format "https://unpkg.com/open-props@%s/normalize.min.css" version)
+                                   "resources/public/css/open-props-normalize.min.css"
+                                   "https://unpkg.com/open-props/open-props.tokens.json"
+                                   "resources/open-props.tokens.json"}]
+             (fs/create-dirs (fs/parent dest-file))
+             (-> src-url
+               (http/get {:as :stream})
+               (doto (fn [response] (assert (= 200 (:status response)))))
+               :body
+               (io/copy (fs/file dest-file)))))}
+  copy-public-resources
+  {:doc  "temp task to copy public resource for serving"
+   :requires ([babashka.fs :as fs])
+   :task (fs/copy-tree "resources/public" "generated-output")}}}
