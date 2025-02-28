@@ -3,6 +3,8 @@
    [clojure.test :refer [deftest is testing]]
    [com.grahamcarlyle.blog.posts :as posts]))
 
+(declare thrown-with-msg?)
+
 (deftest parse-posts-test
   (testing "Parse simple markdown"
     (is (= {:front-matter nil
@@ -33,6 +35,31 @@ This is a post"))))
 name: Alice
 ---
 Hello {{name}}"))))))
+
+(deftest rendering-post-test
+  (let [context {:templates {:simple (fn [{:keys [front-matter content]}]
+                                       [:html
+                                        [:head [:title (:title front-matter)]]
+                                        [:body content]])}}]
+
+    (testing "a templated markdown post referencing the front matter meta variables"
+      (is (= [:html
+              [:head [:title "A title"]]
+              [:body
+               [:p "Hello"]]]
+             (-> (posts/add-rendering {:front-matter {:template "simple"
+                                                      :title    "A title"}
+                                       :content      [:p "Hello"]}
+                                      context)
+                 :rendering))))
+    (testing "unknown template"
+      (is (thrown-with-msg?
+            Exception
+            #"Unknown template"
+            (posts/add-rendering {:front-matter {:template "unknown"
+                                                 :title    "A title"}
+                                  :content      [:p "Hello"]}
+                                 context))))))
 
 (deftest render-post-test
   (testing "a templated markdown post referencing the front matter meta variables"

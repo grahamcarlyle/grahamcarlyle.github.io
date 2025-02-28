@@ -38,17 +38,21 @@
 
 (defn undecorated-content-template [{:keys [content]}] content)
 
-(defn get-template [context front-matter]
+(defn get-template [front-matter context]
   (or (and (-> context :templates)
            (let [template-name (or (-> front-matter :template (keyword))
-                                   (:default-template context))]
+                                   (:default-post-template context))]
              (or (-> context :templates (get template-name))
                  (throw (ex-info "Unknown template" {:template-name template-name})))))
       undecorated-content-template))
 
-(defn render-as-page
+(defn add-rendering [{:keys [front-matter] :as post} context]
+  (let [template (get-template front-matter context)]
+    (assoc post :rendering (template post))))
+
+(defn parse-rendered-post
   ([post-markdown]
-   (render-as-page post-markdown nil))
+   (parse-rendered-post post-markdown nil))
   ([post-markdown context]
    (let [{:keys [front-matter] :as post} (parse post-markdown)
          template (get-template context front-matter)]
@@ -59,4 +63,4 @@
   ([post-markdown]
    (render post-markdown nil))
   ([post-markdown context]
-   (:page-source (render-as-page post-markdown context))))
+   (:page-source (parse-rendered-post post-markdown context))))

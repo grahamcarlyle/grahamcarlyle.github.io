@@ -1,11 +1,16 @@
-{:paths ["src/main"]
+{:paths ["src/main" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.12.0"}
         babashka/fs {:mvn/version "0.4.19"}
         hiccup/hiccup {:mvn/version "2.0.0-RC3"}
         io.github.nextjournal/markdown {:mvn/version "0.6.157"}
         clj-commons/clj-yaml {:mvn/version "1.0.29"}
         org.babashka/sci {:mvn/version "0.9.44"}
-        org.slf4j/slf4j-simple {:mvn/version "2.0.16"}}
+        org.slf4j/slf4j-simple {:mvn/version "2.0.16"}
+        com.lambdaisland/ornament #_{:mvn/version "1.12.107"}
+        {:git/sha "6ba98463688bf4029b4168af5658e82f35001fb8" ;; ornament-next with defprop/defrules/import-tokens
+         :git/url "https://github.com/lambdaisland/ornament.git"}
+        com.lambdaisland/hiccup {:mvn/version "0.11.55"}
+        com.cnuernber/charred {:mvn/version "1.034"}}
  :aliases
  {:generate {:exec-fn com.grahamcarlyle.blog.build/generate-blog
              :exec-args {:output-dir "generated-output"}}
